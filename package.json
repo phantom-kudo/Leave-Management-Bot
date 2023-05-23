@@ -1,0 +1,20 @@
+{
+  "name": "leave-management-bot",
+  "version": "1.0.0",
+  "description": "Leave management bot ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tarpan Bhattacharya",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^4.19.3",
+    "botbuilder-dialogs": "^4.19.3",
+    "dotenv": "^16.0.3",
+    "restify": "^11.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
