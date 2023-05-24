@@ -10,13 +10,13 @@ const {
 const { applyLeaveDialog } = require("../Constants/DialogIds");
 const { CardFactory } = require("botbuilder");
 const { confirmLeave, applyLeave } = require("../Resources/cards");
+const Leave = require("../Model/Leave");
 
 const applyLeaveDialogWF1 = "applyLeaveDialogWF1";
 const choicePromptDialog = "choicePromptDialog";
 const numberPromptDialog = "numberPromptDialog";
 const textPromptDialog = "textPromptDialog";
 const applyLeaveDialogWithFormWF1 = "applyLeaveDialogWithFormWF1";
-let initDialogId;
 
 class ApplyLeaveDialog extends ComponentDialog {
   constructor(conversationState) {
@@ -70,6 +70,7 @@ class ApplyLeaveDialog extends ComponentDialog {
         {}
       );
       let userInput = stepContext.context.activity.value;
+      dialogData.hrmid = userInput.hrmid;
       dialogData.leaveType = userInput.leavetype;
       dialogData.leaveDate = userInput.startingDate;
       dialogData.noOfDays = userInput.noOfDays;
@@ -142,13 +143,21 @@ class ApplyLeaveDialog extends ComponentDialog {
         stepContext.context,
         {}
       );
+      const userLeave = new Leave({
+        hrmid: dialogData.hrmid,
+        leaveType: dialogData.leaveType,
+        leaveDate: dialogData.leaveDate,
+        noOfDays: dialogData.noOfDays,
+      });
+      await userLeave.save();
       await stepContext.context.sendActivity({
         attachments: [
           CardFactory.adaptiveCard(
             confirmLeave(
               dialogData.leaveType,
               dialogData.noOfDays,
-              dialogData.leaveDate
+              dialogData.leaveDate,
+              userLeave._id
             )
           ),
         ],

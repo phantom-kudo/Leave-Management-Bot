@@ -1,6 +1,8 @@
 const { ComponentDialog, WaterfallDialog } = require("botbuilder-dialogs");
 const { CardFactory } = require("botbuilder");
-const { helpDialog, helpDialogWF1 } = require("../Constants/DialogIds");
+const { helpDialog } = require("../Constants/DialogIds");
+
+const helpDialogWF1 = "helpDialogWF1";
 
 class HelpDialog extends ComponentDialog {
   constructor(conversationState) {

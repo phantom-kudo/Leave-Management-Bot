@@ -6,8 +6,13 @@ const {
 } = require("botbuilder-dialogs");
 const { rootDialog } = require("../Constants/DialogIds");
 const { HelpDialog } = require("./helpDialog");
-const { helpDialog, applyLeaveDialog } = require("../Constants/DialogIds");
+const {
+  helpDialog,
+  applyLeaveDialog,
+  leaveStatusDialog,
+} = require("../Constants/DialogIds");
 const { ApplyLeaveDialog } = require("./applyLeave");
+const { LeaveStatusDialog } = require("./leaveStatus");
 
 const parseMessage = "parseMessage";
 
@@ -20,6 +25,7 @@ class RootDialog extends ComponentDialog {
     );
     this.addDialog(new HelpDialog(conversationState));
     this.addDialog(new ApplyLeaveDialog(conversationState));
+    this.addDialog(new LeaveStatusDialog(conversationState));
 
     this.initialDialogId = parseMessage;
   }
@@ -46,6 +52,7 @@ class RootDialog extends ComponentDialog {
         return await stepContext.beginDialog(applyLeaveDialog);
         break;
       case "leave status":
+        return await stepContext.beginDialog(leaveStatusDialog);
         break;
       case "help":
         return await stepContext.beginDialog(helpDialog);

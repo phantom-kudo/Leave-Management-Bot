@@ -1,8 +1,10 @@
 const restify = require("restify");
 require("dotenv/config");
-const PORT = 3978 || process.env.PORT;
+const PORT = 3900 || process.env.PORT;
 const server = restify.createServer();
 server.use(restify.plugins.bodyParser());
+const mongoose = require("mongoose");
+require("dotenv/config");
 
 const {
   ConfigurationBotFrameworkAuthentication,
@@ -10,13 +12,21 @@ const {
   MemoryStorage,
   ConversationState,
   UserState,
+  ConfigurationServiceClientCredentialFactory,
 } = require("botbuilder");
 
 const { BotActivityHandler } = require("./Bot/BotActivityHandler");
 const { RootDialog } = require("./Dialogs/rootDialog");
 
+const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
+  MicrosoftAppId: process.env.MicrosoftAppId,
+  MicrosoftAppPassword: process.env.MicrosoftAppPassword,
+  MicrosoftAppType: process.env.MicrosoftAppType,
+  MicrosoftAppTenantId: process.env.MicrosoftAppTenantId,
+});
+
 const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(
-  process.env
+  credentialsFactory
 );
 const adapter = new CloudAdapter(botFrameworkAuthentication);
 
@@ -38,6 +48,13 @@ adapter.onTurnError = async (context, error) => {
   );
   await conversationState.delete(context);
 };
+
+const db = process.env.MONGO_URI;
+mongoose
+  .set("strictQuery", true)
+  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("MongoDB successfully connected"))
+  .catch((err) => console.log(err));
 
 server.listen(PORT, () => {
   console.log(`${server.name} listening to ${server.url}`);

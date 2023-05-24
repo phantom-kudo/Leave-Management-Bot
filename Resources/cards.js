@@ -1,5 +1,5 @@
 module.exports = {
-  confirmLeave: (leavetype, leavedays, leavedate) => {
+  confirmLeave: (leavetype, leavedays, leavedate, leaveId) => {
     return {
       type: "AdaptiveCard",
       $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -15,6 +15,11 @@ module.exports = {
         {
           type: "Image",
           url: "https://celebaltech.com/assets/img/celebal.webp",
+        },
+        {
+          type: "TextBlock",
+          text: ` Leave Id : ${leaveId}`,
+          wrap: true,
         },
         {
           type: "TextBlock",
@@ -50,6 +55,17 @@ module.exports = {
           text: "Leave Application",
           wrap: true,
           horizontalAlignment: "Center",
+        },
+        {
+          type: "TextBlock",
+          text: "HRM Id :",
+          wrap: true,
+          style: "columnHeader",
+        },
+        {
+          type: "Input.Text",
+          placeholder: "Enter your HRM id.",
+          id: "hrmid",
         },
         {
           type: "TextBlock",
@@ -107,18 +123,53 @@ module.exports = {
             },
           ],
         },
+        // {
+        //   type: "ActionSet",
+        //   actions: [
+        //     {
+        //       type: "Action.Submit",
+        //       title: "Cancel",
+        //       id: "cancelLeaveApplication",
+        //     },
+        //   ],
+        // },
+      ],
+    };
+    return leaveForm;
+  },
+  leaveStatus: () => {
+    let leaveStatusForm = {
+      type: "AdaptiveCard",
+      $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+      version: "1.3",
+      body: [
+        {
+          type: "Image",
+          url: "https://celebaltech.com/assets/img/celebal.webp",
+        },
+        {
+          type: "TextBlock",
+          text: "Leave Id :",
+          wrap: true,
+          horizontalAlignment: "Left",
+        },
+        {
+          type: "Input.Text",
+          placeholder: "Enter your leave id",
+          id: "id",
+        },
         {
           type: "ActionSet",
           actions: [
             {
               type: "Action.Submit",
-              title: "Cancel",
-              id: "cancelLeaveApplication",
+              title: "Check",
+              id: "checkStatus",
             },
           ],
         },
       ],
     };
-    return leaveForm;
+    return leaveStatusForm;
   },
 };
