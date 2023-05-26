@@ -9,7 +9,7 @@
   "author": "Tarpan Bhattacharya",
   "license": "ISC",
   "dependencies": {
-    "@azure/cosmos": "^3.17.3",
+    "axios": "^1.4.0",
     "botbuilder": "^4.19.3",
     "botbuilder-dialogs": "^4.19.3",
     "dotenv": "^16.0.3",

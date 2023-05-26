@@ -13,7 +13,9 @@ class HelpDialog extends ComponentDialog {
     this.conversationState = conversationState;
 
     this.addDialog(
-      new WaterfallDialog(helpDialogWF1, [this.sendHelpSuggestion.bind(this)])
+      new WaterfallDialog(helpDialogWF1, [
+        this.sendHelpSuggestion.bind(this)
+      ])
     );
 
     this.initialDialogId = helpDialogWF1;

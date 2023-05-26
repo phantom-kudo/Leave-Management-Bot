@@ -13,6 +13,7 @@ const {
 } = require("../Constants/DialogIds");
 const { ApplyLeaveDialog } = require("./applyLeave");
 const { LeaveStatusDialog } = require("./leaveStatus");
+const { getClu } = require("../Clu/cluRecognizer");
 
 const parseMessage = "parseMessage";
 
@@ -47,7 +48,16 @@ class RootDialog extends ComponentDialog {
   }
 
   async routeMessage(stepContext) {
-    switch (stepContext.context.activity.text.toLowerCase()) {
+    const text = stepContext.context.activity.text.toLowerCase();
+    // console.log(getClu(text));
+    const cluResponse = await getClu(text);
+    // console.log("cluResponse ==>", cluResponse);
+    let intent;
+    if (cluResponse.recieveConfidenceScore > 0.8) {
+      intent = cluResponse.recievedIntent.toLowerCase();
+    }
+    // console.log("intent ==>", intent);
+    switch (intent) {
       case "apply leave":
         return await stepContext.beginDialog(applyLeaveDialog);
         break;

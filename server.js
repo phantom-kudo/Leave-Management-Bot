@@ -21,14 +21,14 @@ const { RootDialog } = require("./Dialogs/rootDialog");
 const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
   MicrosoftAppId: process.env.MicrosoftAppId,
   MicrosoftAppPassword: process.env.MicrosoftAppPassword,
-  MicrosoftAppType: process.env.MicrosoftAppType,
-  MicrosoftAppTenantId: process.env.MicrosoftAppTenantId,
 });
 
 const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(
   credentialsFactory
 );
 const adapter = new CloudAdapter(botFrameworkAuthentication);
+
+// console.log("CLU Response", getClu("I want to take leave"));
 
 const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
